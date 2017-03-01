@@ -7,7 +7,7 @@ function Pickup(x, y, heading) {
   this.ammunition = false;
   this.machine_gun = false;
   this.health = false;
-  //this.big gun = false;
+  this.big_gun = false;
 
   this.update = function() {
     this.pos.add(this.vel);
