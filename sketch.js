@@ -83,7 +83,7 @@ function draw() {
         if (laser.hits(enemy))
         {
           // random weapon
-          var pickup = newPickup(enemy.pos.x, enemy.pos.y, enemy.heading);
+          var pickup = new Pickup(enemy.pos.x, enemy.pos.y, enemy.heading);
           var r = random(5);
           if (r < 1.0)
           {
