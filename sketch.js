@@ -9,7 +9,7 @@ var use_machine_gun = false;
 function setup() {
   createCanvas(windowWidth, windowHeight);
   ship = new Ship(30);
-  var n_astroids = 25;
+  var n_astroids = 20;
   for (var i = 0; i < n_astroids; i++) {
     var asteroid = new Asteroid();
     if (ship.hits(asteroid))
