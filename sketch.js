@@ -251,7 +251,7 @@ function keyPressed() {
       if (ship.ammo > 0)
       {
         lasers.push (new Laser(ship.pos, ship.heading));
-        ship.boost(-0.1); // apply a negative boost as kickback from the gun
+        ship.boost(-1); // apply a negative boost as kickback from the gun
         --ship.ammo;
       }
     }
