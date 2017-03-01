@@ -12,11 +12,17 @@ function Ship() {
   this.health = 5;
   this.alive = true;
   this.ammo = 50;
+  this.shield = false;
+  this.shield_damage = 0;
 
   this.hit = function()
   {
-    --this.health;
-    if (this.health <= 0)
+    if (!this.shield) {
+        --this.health;
+    } else {
+        ++this.shield_damage;
+    }
+    if (this.health <= 0 && !this.shield)
     {
       console.log('you died!');
       this.alive = false;

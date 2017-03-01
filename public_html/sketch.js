@@ -100,7 +100,10 @@ function draw() {
           {
             pickup.big gun = true;
           }*/
-
+          r = random(5);
+          if (r < 1.0 && !ship.shield) {
+              pickup.shield = true;
+          }
           else
           {
             pickup.ammunition = true;
@@ -119,7 +122,12 @@ function draw() {
 
   if (ship.alive)
   {
-    ship.render(255, 255, 0);
+      //render the ship a different color if it has a shield
+    if (ship.shield) {
+        ship.render(0, 255, 0);
+    } else {
+        ship.render(255, 255, 0);
+    }
   ship.turn();
   ship.update();
   ship.edges();
@@ -132,6 +140,10 @@ function draw() {
         ship.boost(-0.1); // apply a negative boost as kickback from the gun
         --ship.ammo;
       }
+    }
+    
+    if (ship.shield_damage >= 10) {
+        ship.shield = false;
     }
   }
 
@@ -187,6 +199,11 @@ function draw() {
       {
         ++ship.health;
       }
+      if (pickup.shield) {
+          ship.shield = true;
+          ship.shield_damage = 0;
+          var time_shield_generated = performance.now;
+      }
       
       pickups.splice(i, 1);
     }
@@ -200,6 +217,9 @@ function draw() {
     {
       pickup.render(255, 0, 0);
     }
+    if (pickup.shield) {
+        pickup.render(255, 0, 255);
+    }
     pickup.edges();
   }
 
@@ -207,6 +227,8 @@ function draw() {
   textSize(20);
   fill(230, 230, 255);
   text("Machine gun: " + ship.machine_gun.toString(), width - 220, height - 80);
+  text("Shield Damage: " + ship.shield_damage, width - 220, height - 100);
+  text("Shield: " + ship.shield, width - 220, height - 120);
   textSize(32);
   text(ship.ammo.toString() + " | " + ship.health.toString(), width - 120, height - 40);
   if (ship.alive)
@@ -217,7 +239,7 @@ function draw() {
   line(width - health_percent*300 - 20, height - 20, width - 20, height - 20);
   }
   pop();
-}
+} // draw
 
 function keyReleased() {
   if (key == ' ')
