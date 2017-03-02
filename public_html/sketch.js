@@ -102,7 +102,7 @@ function draw() {
             pickup.big gun = true;
           }*/
           r = random(5);
-          if (r < 1.0) {
+          if (r < 0.5) {
               pickup.shield = true;
           }
           else
