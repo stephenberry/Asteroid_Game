@@ -42,6 +42,46 @@ function draw() {
         }
     }
     
+    //check if an enemy has hit an asteroid
+    for (var j = enemies.length - 1; j >= 0; --j) {
+        
+        var enemy = enemies[j];
+        if (enemy.hits(asteroid) && time < millis() - 500) {
+          
+          // random weapon
+          var pickup = new Pickup(enemy.pos.x, enemy.pos.y, enemy.heading);
+          var r = random(5);
+          if (r < 1.0)
+          {
+            pickup.machine_gun = true;
+          }
+
+          r = random(5);
+          if (r < 1.0)
+          {
+            pickup.health = true;
+          }
+          /*r = random(5);
+          if (r < 1.0)
+          {
+            pickup.big gun = true;
+          }*/
+          r = random(5);
+          if (r < 0.5) {
+              pickup.shield = true;
+          }
+          else
+          {
+            pickup.ammunition = true;
+          }
+
+          pickups.push(pickup);
+          enemies.splice(j, 1);
+          asteroids.splice(i, 1);
+          break;
+        }
+    }
+    
     // render astroids
     asteroid.render(155);
     asteroid.update();
@@ -66,6 +106,7 @@ function draw() {
             enemies.push(new Ship());
             var enemy = enemies.slice(-1)[0];
             enemy.pos = createVector(asteroid.pos.x, asteroid.pos.y);
+            time = millis();
           }
 
           if (asteroid.r > 10) {
