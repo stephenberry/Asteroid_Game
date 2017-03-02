@@ -222,7 +222,7 @@ function draw() {
       pickup.render(255, 0, 0);
     }
     if (pickup.shield) {
-        pickup.render(255, 0, 255);
+        pickup.render(122, 0, 255);
     }
     pickup.edges();
   }
