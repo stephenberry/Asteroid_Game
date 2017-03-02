@@ -102,7 +102,7 @@ function draw() {
             pickup.big gun = true;
           }*/
           r = random(5);
-          if (r < 1.0 && !ship.shield) {
+          if (r < 1.0) {
               pickup.shield = true;
           }
           else
@@ -202,7 +202,11 @@ function draw() {
       }
       if (pickup.shield) {
           ship.shield = true;
-          time_shield_generated = millis();
+          if (ship.shield) {
+              time_shield_generated += 10000;
+          } else {
+              time_shield_generated = millis();
+          }
       }
       
       pickups.splice(i, 1);
@@ -228,7 +232,7 @@ function draw() {
   fill(230, 230, 255);
   text("Machine gun: " + ship.machine_gun.toString(), width - 220, height - 80);
   if (ship.shield) {
-    text("Shield Timer: " + parseInt((millis() - time_shield_generated) / 1000), width - 220, height - 100);
+    text("Shield Timer: " + parseInt( (time_shield_generated + 10000 - millis() ) / 1000), width - 220, height - 100);
   } else {
     text("Shield Timer: N/A", width - 220, height - 100);
   }
