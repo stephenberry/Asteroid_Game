@@ -11,7 +11,7 @@
   this.render = function(red, green, blue) {
     push();
     stroke(red, green, blue);
-    strokeWeight(5);
+    strokeWeight(this.r);
     point(this.pos.x, this.pos.y);
     pop();
   }

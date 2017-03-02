@@ -8,7 +8,7 @@ function Ship() {
   this.isBoosting = false;
   this.firing = false;
   this.machine_gun = false;
-  //this.big_gun = false
+  this.big_gun = false
   this.health = 5;
   this.alive = true;
   this.ammo = 50;

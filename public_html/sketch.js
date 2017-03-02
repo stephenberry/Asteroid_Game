@@ -5,7 +5,7 @@ var enemies = [];
 var pickups = [];
 var use_machine_gun = false;
 var time_shield_generated = 0.0;
-//var use_big_gun = false
+var use_big_gun = false
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -62,11 +62,11 @@ function draw() {
           {
             pickup.health = true;
           }
-          /*r = random(5);
+          r = random(5);
           if (r < 1.0)
           {
-            pickup.big gun = true;
-          }*/
+              pickup.big_gun = true;
+          }
           r = random(5);
           if (r < 0.5) {
               pickup.shield = true;
@@ -137,11 +137,11 @@ function draw() {
           {
             pickup.health = true;
           }
-          /*r = random(5);
+          r = random(5);
           if (r < 1.0)
           {
-            pickup.big gun = true;
-          }*/
+            pickup.big_gun = true;
+          }
           r = random(5);
           if (r < 0.5) {
               pickup.shield = true;
@@ -236,6 +236,10 @@ function draw() {
         {
           ship.machine_gun = true;
         }
+        if (pickup.big_gun) 
+        {
+           big_gun = true
+        }
       }
       if (pickup.health)
       {
@@ -265,6 +269,9 @@ function draw() {
     if (pickup.shield) {
         pickup.render(122, 0, 255);
     }
+    if (pickup.big_gun) {
+      pickup.render(0, 255, 255)
+    }
     pickup.edges();
   }
 
@@ -272,6 +279,7 @@ function draw() {
   textSize(20);
   fill(230, 230, 255);
   text("Machine gun: " + ship.machine_gun.toString(), width - 220, height - 80);
+  text("Big Gun: " + ship.big_gun.toString(), width - 220, height - 140);
   if (ship.shield) {
     text("Shield Timer: " + parseInt( (time_shield_generated + 10000 - millis() ) / 1000), width - 220, height - 100);
   } else {
@@ -309,6 +317,9 @@ function keyTyped()
   {
     use_machine_gun = !use_machine_gun;
   }
+  if (key === 'b') {
+    use_big_gun = !use_big_gun;
+  }
 }
 
 function keyPressed() {
@@ -322,7 +333,13 @@ function keyPressed() {
       if (ship.ammo > 0)
       {
         lasers.push (new Laser(ship.pos, ship.heading));
-        ship.boost(-1); // apply a negative boost as kickback from the gun
+        if (big_gun) {
+          lasers[lasers.length - 1].r = 30;
+          ship.boost(-2);
+        } else {
+          ship.boost(-1); // apply a negative boost as kickback from the gun
+        }
+        stroekWeight(5);
         --ship.ammo;
       }
     }
