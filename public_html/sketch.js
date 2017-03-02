@@ -9,6 +9,7 @@ var time_shield_generated = 0.0;
 
 function preload() {
     explosion = loadSound('assets/explosion.m4a');
+    tie_fighter_roar = loadSound('assets/tie_fighter_noise.m4a')
 }
 
 function setup() {
@@ -59,6 +60,7 @@ function draw() {
         if (enemy.hits(asteroid) && time < millis() - 1000) {
             
           explosion.play();
+          tie_fighter_roar.pause();
           
           // random weapon
           var pickup = new Pickup(enemy.pos.x, enemy.pos.y, enemy.heading);
@@ -116,6 +118,8 @@ function draw() {
           if (r < 1.0)
           {
             enemies.push(new Ship());
+            tie_fighter_roar.setVolume(0.1);
+            tie_fighter_roar.play();
             var enemy = enemies.slice(-1)[0];
             enemy.pos = createVector(asteroid.pos.x, asteroid.pos.y);
             time = millis();
@@ -137,6 +141,7 @@ function draw() {
         {
             
           explosion.play();
+          tie_fighter_roar.stop();
           // random weapon
           var pickup = new Pickup(enemy.pos.x, enemy.pos.y, enemy.heading);
           var r = random(5);
