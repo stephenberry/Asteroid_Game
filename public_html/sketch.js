@@ -143,7 +143,12 @@ function draw() {
         {
             
           explosion.play();
-          tie_fighter_roar.stop();
+          try {
+            tie_fighter_roar.stop();
+          } catch (err) {
+            tie_fighter_roar.pause();
+
+          }
           // random weapon
           var pickup = new Pickup(enemy.pos.x, enemy.pos.y, enemy.heading);
           var r = random(5);
