@@ -228,7 +228,7 @@ function draw() {
   fill(230, 230, 255);
   text("Machine gun: " + ship.machine_gun.toString(), width - 220, height - 80);
   if (ship.shield) {
-    text("Shield Timer: " + ((millis() - time_shield_generated) / 1000), width - 220, height - 100);
+    text("Shield Timer: " + parseInt((millis() - time_shield_generated) / 1000), width - 220, height - 100);
   } else {
     text("Shield Timer: N/A", width - 220, height - 100);
   }
