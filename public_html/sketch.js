@@ -4,6 +4,7 @@ var lasers = [];
 var enemies = [];
 var pickups = [];
 var use_machine_gun = false;
+var time_shield_generated = 0.0;
 //var use_big_gun = false
 
 function setup() {
@@ -141,7 +142,10 @@ function draw() {
           {
             pickup.big gun = true;
           }*/
-
+          r = random(5);
+          if (r < 0.5) {
+              pickup.shield = true;
+          }
           else
           {
             pickup.ammunition = true;
@@ -160,7 +164,12 @@ function draw() {
 
   if (ship.alive)
   {
-    ship.render(255, 255, 0);
+      //render the ship a different color if it has a shield
+    if (ship.shield) {
+        ship.render(0, 255, 0);
+    } else {
+        ship.render(255, 255, 0);
+    }
   ship.turn();
   ship.update();
   ship.edges();
@@ -173,6 +182,10 @@ function draw() {
         ship.boost(-1); // apply a negative boost as kickback from the gun
         --ship.ammo;
       }
+    }
+    
+    if (millis() > (time_shield_generated + 10000) ) {
+        ship.shield = false;
     }
   }
 
@@ -228,6 +241,14 @@ function draw() {
       {
         ++ship.health;
       }
+      if (pickup.shield) {
+          ship.shield = true;
+          if (ship.shield) {
+              time_shield_generated += 10000;
+          } else {
+              time_shield_generated = millis();
+          }
+      }
       
       pickups.splice(i, 1);
     }
@@ -241,6 +262,9 @@ function draw() {
     {
       pickup.render(255, 0, 0);
     }
+    if (pickup.shield) {
+        pickup.render(122, 0, 255);
+    }
     pickup.edges();
   }
 
@@ -248,6 +272,12 @@ function draw() {
   textSize(20);
   fill(230, 230, 255);
   text("Machine gun: " + ship.machine_gun.toString(), width - 220, height - 80);
+  if (ship.shield) {
+    text("Shield Timer: " + parseInt( (time_shield_generated + 10000 - millis() ) / 1000), width - 220, height - 100);
+  } else {
+    text("Shield Timer: N/A", width - 220, height - 100);
+  }
+  text("Shield: " + ship.shield, width - 220, height - 120);
   textSize(32);
   text(ship.ammo.toString() + " | " + ship.health.toString(), width - 120, height - 40);
   if (ship.alive)
@@ -258,7 +288,7 @@ function draw() {
   line(width - health_percent*300 - 20, height - 20, width - 20, height - 20);
   }
   pop();
-}
+} // draw
 
 function keyReleased() {
   if (key == ' ')
