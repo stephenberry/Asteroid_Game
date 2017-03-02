@@ -8,8 +8,9 @@ var time_shield_generated = 0.0;
 //var use_big_gun = false
 
 function preload() {
-    explosion = loadSound('assets/explosion.m4a');
-    tie_fighter_roar = loadSound('assets/tie_fighter_noise.m4a')
+    explosion = loadSound('assets/explosion.mp3');
+    tie_fighter_roar = loadSound('assets/tie_fighter_noise.mp3');
+    laser_blast = loadSound('assets/laser.mp3');
 }
 
 function setup() {
@@ -29,6 +30,8 @@ function setup() {
   }
     
     explosion.setVolume(0.1);
+    laser_blast.setVolume(0.1);
+    tie_fighter_roar.setVolume(0.2);
 }
 
 function draw() {
@@ -118,7 +121,6 @@ function draw() {
           if (r < 1.0)
           {
             enemies.push(new Ship());
-            tie_fighter_roar.setVolume(0.1);
             tie_fighter_roar.play();
             var enemy = enemies.slice(-1)[0];
             enemy.pos = createVector(asteroid.pos.x, asteroid.pos.y);
@@ -341,6 +343,7 @@ function keyPressed() {
       {
         lasers.push (new Laser(ship.pos, ship.heading));
         ship.boost(-1); // apply a negative boost as kickback from the gun
+        laser_blast.play();
         --ship.ammo;
       }
     }
