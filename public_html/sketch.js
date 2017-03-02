@@ -4,6 +4,7 @@ var lasers = [];
 var enemies = [];
 var pickups = [];
 var use_machine_gun = false;
+var time_shield_generated = 0.0;
 //var use_big_gun = false
 
 function setup() {
@@ -142,7 +143,7 @@ function draw() {
       }
     }
     
-    if (ship.shield_damage >= 10) {
+    if (millis() > (time_shield_generated + 10000) ) {
         ship.shield = false;
     }
   }
@@ -201,8 +202,7 @@ function draw() {
       }
       if (pickup.shield) {
           ship.shield = true;
-          ship.shield_damage = 0;
-          var time_shield_generated = performance.now;
+          time_shield_generated = millis();
       }
       
       pickups.splice(i, 1);
@@ -227,7 +227,11 @@ function draw() {
   textSize(20);
   fill(230, 230, 255);
   text("Machine gun: " + ship.machine_gun.toString(), width - 220, height - 80);
-  text("Shield Damage: " + ship.shield_damage, width - 220, height - 100);
+  if (ship.shield) {
+    text("Shield Timer: " + ((millis() - time_shield_generated) / 1000), width - 220, height - 100);
+  } else {
+    text("Shield Timer: N/A", width - 220, height - 100);
+  }
   text("Shield: " + ship.shield, width - 220, height - 120);
   textSize(32);
   text(ship.ammo.toString() + " | " + ship.health.toString(), width - 120, height - 40);
