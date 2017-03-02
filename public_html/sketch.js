@@ -7,6 +7,10 @@ var use_machine_gun = false;
 var time_shield_generated = 0.0;
 //var use_big_gun = false
 
+function preload() {
+    explosion = loadSound('assets/explosion.m4a');
+}
+
 function setup() {
   createCanvas(windowWidth, windowHeight);
   ship = new Ship(30);
@@ -22,6 +26,8 @@ function setup() {
       asteroids.push(asteroid);
     }
   }
+    
+    explosion.setVolume(0.1);
 }
 
 function draw() {
@@ -34,6 +40,9 @@ function draw() {
     {
        if (ship.hits(asteroid)) {
           ship.hit();
+          if (ship.health === 0) {
+            explosion.play();
+          }
 
           if (asteroid.r > 10) {
             var newAsteroids = asteroid.breakup();
@@ -47,7 +56,9 @@ function draw() {
     for (var j = enemies.length - 1; j >= 0; --j) {
         
         var enemy = enemies[j];
-        if (enemy.hits(asteroid) && time < millis() - 500) {
+        if (enemy.hits(asteroid) && time < millis() - 1000) {
+            
+          explosion.play();
           
           // random weapon
           var pickup = new Pickup(enemy.pos.x, enemy.pos.y, enemy.heading);
@@ -124,6 +135,8 @@ function draw() {
         var enemy = enemies[k];
         if (laser.hits(enemy))
         {
+            
+          explosion.play();
           // random weapon
           var pickup = new Pickup(enemy.pos.x, enemy.pos.y, enemy.heading);
           var r = random(5);
