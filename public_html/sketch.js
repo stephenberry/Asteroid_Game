@@ -7,6 +7,12 @@ var use_machine_gun = false;
 var time_shield_generated = 0.0;
 //var use_big_gun = false
 
+function preload() {
+    explosion = loadSound('assets/explosion.mp3');
+    tie_fighter_roar = loadSound('assets/tie_fighter_noise.mp3');
+    laser_blast = loadSound('assets/laser.mp3');
+}
+
 function setup() {
   createCanvas(windowWidth, windowHeight);
   ship = new Ship(30);
@@ -22,6 +28,10 @@ function setup() {
       asteroids.push(asteroid);
     }
   }
+    
+    explosion.setVolume(0.1);
+    laser_blast.setVolume(0.1);
+    tie_fighter_roar.setVolume(0.2);
 }
 
 function draw() {
@@ -34,6 +44,9 @@ function draw() {
     {
        if (ship.hits(asteroid)) {
           ship.hit();
+          if (ship.health === 0) {
+            explosion.play();
+          }
 
           if (asteroid.r > 10) {
             var newAsteroids = asteroid.breakup();
@@ -47,7 +60,10 @@ function draw() {
     for (var j = enemies.length - 1; j >= 0; --j) {
         
         var enemy = enemies[j];
-        if (enemy.hits(asteroid) && time < millis() - 500) {
+        if (enemy.hits(asteroid) && time < millis() - 1000) {
+            
+          explosion.play();
+          tie_fighter_roar.pause();
           
           // random weapon
           var pickup = new Pickup(enemy.pos.x, enemy.pos.y, enemy.heading);
@@ -105,6 +121,7 @@ function draw() {
           if (r < 1.0)
           {
             enemies.push(new Ship());
+            tie_fighter_roar.play();
             var enemy = enemies.slice(-1)[0];
             enemy.pos = createVector(asteroid.pos.x, asteroid.pos.y);
             time = millis();
@@ -124,6 +141,14 @@ function draw() {
         var enemy = enemies[k];
         if (laser.hits(enemy))
         {
+            
+          explosion.play();
+          try {
+            tie_fighter_roar.stop();
+          } catch (err) {
+            tie_fighter_roar.pause();
+
+          }
           // random weapon
           var pickup = new Pickup(enemy.pos.x, enemy.pos.y, enemy.heading);
           var r = random(5);
@@ -323,6 +348,7 @@ function keyPressed() {
       {
         lasers.push (new Laser(ship.pos, ship.heading));
         ship.boost(-1); // apply a negative boost as kickback from the gun
+        laser_blast.play();
         --ship.ammo;
       }
     }
