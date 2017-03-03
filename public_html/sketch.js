@@ -16,6 +16,9 @@ function preload() {
 function setup() {
   createCanvas(windowWidth, windowHeight);
   ship = new Ship(30);
+	ship.pos.x = random(50, width - 50);
+	ship.pos.y = random(50, height - 50);
+	ship.heading = random(0, 360);
   var n_astroids = 20;
   for (var i = 0; i < n_astroids; i++) {
     var asteroid = new Asteroid();
