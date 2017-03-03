@@ -5,6 +5,7 @@ var enemies = [];
 var pickups = [];
 var use_machine_gun = false;
 var time_shield_generated = 0.0;
+var time_of_enemy_shot = 0.0;
 //var use_big_gun = false
 
 function preload() {
@@ -241,6 +242,12 @@ function draw() {
     enemy.turn();
     enemy.apply_boost();
     enemy.edges();
+		
+		if (millis() > time_of_enemy_shot + 500) {
+			lasers.push(new Laser(enemy.pos, enemy.heading));
+			time_of_enemy_shot = millis();
+		}
+		//setInterval( fire(enemy), 500);
 
     if (ship.alive)
     {
