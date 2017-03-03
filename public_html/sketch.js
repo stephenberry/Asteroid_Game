@@ -29,9 +29,9 @@ function setup() {
     }
   }
     
-    explosion.setVolume(0.1);
+    explosion.setVolume(0.2);
     laser_blast.setVolume(0.1);
-    tie_fighter_roar.setVolume(0.2);
+    tie_fighter_roar.setVolume(0.25);
 }
 
 function draw() {
